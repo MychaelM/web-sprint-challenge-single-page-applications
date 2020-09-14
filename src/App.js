@@ -15,7 +15,11 @@ const App = () => {
             <Form />
           </Route>
           <Route path="/">
-            <img src="../Assets/Pizza.jpg" alt="pizza" />
+            <img
+              src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+              alt="pizza"
+              width="30%"
+            />
             <Link to="/pizza">
               <button>Pizza</button>
             </Link>
