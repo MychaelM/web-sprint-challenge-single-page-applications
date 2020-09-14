@@ -4,10 +4,17 @@ import * as yup from 'yup';
 
 const formSchema = yup.object().shape({
   name: yup
-        .string()
-        .min(2, "Names must be at least 2 characters long.")
-        .required("Must include your name.")
-})
+    .string()
+    .min(2, "Names must be at least 2 characters long.")
+    .required("Must include your name."),
+
+  pizzaSize: yup.string(),
+  pepperoni: yup.boolean(),
+  sausage: yup.boolean(),
+  canadianBacon: yup.boolean(),
+  grilledChicken: yup.boolean(),
+  specialInstructions: yup.string()
+});
 
 function Form() {
 
@@ -171,7 +178,7 @@ function Form() {
           />
         </label>
         <br />
-        <button type="submit">Add to Order</button>
+        <button data-cy="addToOrderButton" type="submit">Add to Order</button>
       </form>
     </div>
   );

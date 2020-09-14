@@ -21,7 +21,7 @@ const App = () => {
               width="30%"
             />
             <Link to="/pizza">
-              <button>Pizza</button>
+              <button data-cy="pizzaFormButton">Pizza</button>
             </Link>
           </Route>
         </Switch>
