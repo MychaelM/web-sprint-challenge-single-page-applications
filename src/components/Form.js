@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function Form() {
 
@@ -19,10 +20,32 @@ function Form() {
     setFormData({ ...formData, [e.target.name]: value }) 
   }
 
+  const formSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitted Form');
+    axios
+      .post(`https://reqres.in/api/users`, formData)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      setFormData({
+        name: "",
+        pizzaSize: "",
+        pepperoni: false,
+        sausage: false,
+        canadianBacon: false,
+        grilledChicken: false,
+        specialInstructions: "",
+      });
+  }
+
   return (
     <div>
       <h2>Build Your Own Pizza!</h2>
-      <form>
+      <form onSubmit={formSubmit}>
         <label htmlFor="name">
           Name:
           <input
