@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import * as yup from 'yup';
+
+const formSchema = yup.object().shape({
+  name: yup
+        .string()
+        .min(2, "Names must be at least 2 characters long.")
+        .required("Must include your name.")
+})
 
 function Form() {
 
@@ -13,9 +21,35 @@ function Form() {
     specialInstructions: ""
   });
 
+  const [errorState, setErrorState] = useState({
+    name: ""
+  })
+
+  const validate = (e) => {
+    let value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value; 
+
+      yup
+        .reach(formSchema, e.target.name)
+        .validate(value)
+        .then(valid => {
+          setErrorState({
+            ...errorState,
+            [e.target.name]: ''
+          });
+        })
+        .catch(err => {
+          setErrorState({
+            ...errorState,
+            [e.target.name]: err.errors[0]
+          });
+        })
+  }
+
   const inputChange = (e) => {
     e.persist();
     // console.log(e.target.value);
+    validate(e);
     let value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormData({ ...formData, [e.target.name]: value }) 
   }
@@ -56,6 +90,9 @@ function Form() {
             onChange={inputChange}
           />
         </label>
+        {errorState.name.length > 0 ? (
+          <p>{errorState.name}</p>
+        ) : null}
         <br />
 
         <label htmlFor="pizzaSize">
