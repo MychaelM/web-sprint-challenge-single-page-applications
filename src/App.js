@@ -20,6 +20,8 @@ const App = () => {
               alt="pizza"
               width="30%"
             />
+            <br/>
+            
             <Link to="/pizza">
               <button data-cy="pizzaFormButton">Pizza</button>
             </Link>
