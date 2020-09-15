@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 
@@ -8,7 +8,7 @@ const formSchema = yup.object().shape({
     .min(2, "Names must be at least 2 characters long.")
     .required("Must include your name."),
 
-  pizzaSize: yup.string(),
+  pizzaSize: yup.string().min(1, "Please select a size of Pizza").required(),
   pepperoni: yup.boolean(),
   sausage: yup.boolean(),
   canadianBacon: yup.boolean(),
@@ -28,9 +28,20 @@ function Form() {
     specialInstructions: ""
   });
 
+  useEffect(() => {
+    formSchema
+      .isValid(formData)
+      .then(valid => {
+        setButtonDisabled(!valid)
+      })
+  }, [formData])
+
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
   const [errorState, setErrorState] = useState({
-    name: ""
-  })
+    name: "",
+    pizzaSize: "",
+  });
 
   const validate = (e) => {
     let value =
@@ -117,6 +128,9 @@ function Form() {
             <option value="large">Large</option>
           </select>
         </label>
+        {errorState.pizzaSize.length > 0 ? (
+          <p>{errorState.pizzaSize}</p>
+        ) : null}
         <br />
 
         <label htmlFor="toppings">
@@ -178,7 +192,7 @@ function Form() {
           />
         </label>
         <br />
-        <button data-cy="addToOrderButton" type="submit">Add to Order</button>
+        <button disabled={buttonDisabled} data-cy="addToOrderButton" type="submit">Add to Order</button>
       </form>
     </div>
   );
